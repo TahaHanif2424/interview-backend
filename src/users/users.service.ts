@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UserType } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { createUser } from './functions';
 
@@ -10,7 +11,7 @@ export class UsersService {
     id: string;
     email: string;
     name: string;
-    type: boolean;
+    type: UserType;
   }) {
     return await createUser(this.prisma, data);
   }
