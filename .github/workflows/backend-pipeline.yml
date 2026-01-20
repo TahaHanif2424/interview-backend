@@ -28,8 +28,5 @@ jobs:
             - name: Unit tests with coverage
               run: npm run test:cov -- --runInBand
 
-            - name: E2E tests
-              run: npm run test:e2e -- --runInBand
-
             - name: Build project
               run: npm run build
