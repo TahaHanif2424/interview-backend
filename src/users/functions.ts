@@ -1,7 +1,8 @@
-import { PrismaClient, User } from '@prisma/client';
+import { User } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
 export const createUser = (
-  prisma: PrismaClient,
+  prisma: PrismaService,
   dto: { id: string; email: string; name: string; type: boolean },
 ): Promise<User> => {
   return prisma.user.create({
