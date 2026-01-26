@@ -7,8 +7,10 @@ import {
 } from '@nestjs/common';
 import { Prisma, Jobs } from '@prisma/client';
 
-const prisma = new PrismaService();
-export const createJobFn = async (data: CreateJobDto): Promise<Jobs> => {
+export const createJobFn = async (
+  prisma: PrismaService,
+  data: CreateJobDto,
+): Promise<Jobs> => {
   try {
     return await prisma.jobs.create({
       data: {
@@ -17,9 +19,15 @@ export const createJobFn = async (data: CreateJobDto): Promise<Jobs> => {
         requirements: data.requirements,
         location: data.location,
         userId: data.userId,
+        specifications: data.specification,
+        department: data.department,
+        salary: data.salary,
+        status: data.status,
+        type: data.type,
       },
     });
   } catch (error) {
+    console.error('Actual error:', error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         throw new BadRequestException('A job with this data already exists');
@@ -28,13 +36,13 @@ export const createJobFn = async (data: CreateJobDto): Promise<Jobs> => {
         throw new NotFoundException('User not found');
       }
     }
-    throw new InternalServerErrorException('Failed to create job');
+    throw new InternalServerErrorException('Failed to create job: ' + error);
   }
 };
 
 export const getJobByIdFn = async (
   prisma: PrismaService,
-  id: string,
+  id: number,
 ): Promise<Jobs> => {
   try {
     const job = await prisma.jobs.findUnique({ where: { id } });
@@ -67,7 +75,7 @@ export const getAllJobsFn = async (
 
 export const deleteJobFn = async (
   prisma: PrismaService,
-  id: string,
+  id: number,
 ): Promise<Jobs> => {
   try {
     return await prisma.jobs.delete({ where: { id } });

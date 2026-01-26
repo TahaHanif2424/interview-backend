@@ -18,36 +18,48 @@ enum UserType {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
-  type      UserType
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String      @id @default(uuid())
+  email      String      @unique
+  name       String
+  type       UserType
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
   interviews Interview[]
-  jobs      Jobs[]
+  jobs       Jobs[]
 }
 
 model Interview {
-  id        String   @id @default(uuid())
+  id           String   @id @default(uuid())
   scheduleTime DateTime
-  user     User     @relation(fields: [userId], references: [id])
-  jobs     Jobs     @relation(fields: [jobId], references: [id])
-  userId   String
-  jobId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id])
+  jobs         Jobs     @relation(fields: [jobId], references: [id])
+  userId       String
+  jobId        Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
-model Jobs{
-  id        String   @id @default(uuid())
-  title     String
-  user     User     @relation(fields: [userId], references: [id])
-  userId   String
-  description String?
-  requirements String?
-  location  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  interviews Interview[]
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  INTERN
+}
+
+model Jobs {
+  id             Int         @id @default(autoincrement())
+  title          String
+  user           User        @relation(fields: [userId], references: [id])
+  userId         String
+  description    String?
+  requirements   String?
+  location       String?
+  specifications String?
+  department     String?
+  employmentType String?
+  status         String?
+  type           String?
+  salary         String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  interviews     Interview[]
 }

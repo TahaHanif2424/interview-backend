@@ -8,7 +8,7 @@ export class JobsService {
   constructor(private prisma: PrismaService) {}
 
   createJob(dto: CreateJobDto) {
-    return createJobFn(dto);
+    return createJobFn(this.prisma, dto);
   }
 
   getAllJobs(userId: string) {

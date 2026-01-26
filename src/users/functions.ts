@@ -3,11 +3,11 @@ import { PrismaService } from '../prisma/prisma.service';
 
 export const createUser = (
   prisma: PrismaService,
-  dto: { id: string; email: string; name: string; type: UserType },
+  dto: { userId: string; email: string; name: string; type: UserType },
 ): Promise<User> => {
   return prisma.user.create({
     data: {
-      id: dto.id,
+      id: dto.userId,
       email: dto.email,
       name: dto.name,
       type: dto.type,
